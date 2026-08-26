@@ -1103,3 +1103,189 @@ button {
   border-color: #38bdf8;
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
 }
+
+/* Secret Code Controls & Sharing */
+.secret-control-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.control-sub-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-sub-btn:hover {
+  transform: translateY(-2px);
+}
+
+.random-btn {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+.create-btn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.share-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.share-alert-banner {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  padding: 12px 25px;
+  border-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+  animation: pulse 1s infinite alternate;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.6);
+  border: 2px solid #6ee7b7;
+}
+
+.mission-meta-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.mission-number {
+  color: #94a3b8;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.mission-author-tag {
+  background: rgba(99, 102, 241, 0.25);
+  border: 1px solid #818cf8;
+  color: #c7d2fe;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.del-quiz-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.del-quiz-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Create Mission Modal */
+.create-mission-modal {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 3px solid #38bdf8;
+  border-radius: 30px;
+  padding: 35px;
+  max-width: 620px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.35);
+  animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #ffffff;
+}
+
+.create-mission-modal h2 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #38bdf8;
+  text-align: center;
+}
+
+.create-mission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.radio-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.radio-label {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.radio-label.active {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+.modal-text-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffffff;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.modal-text-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+}
+
+.modal-btn-row {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+

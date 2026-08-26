@@ -318,7 +318,7 @@ function App() {
 
       {activeTab === 'SECRET' && (
         isSecretUnlocked ? (
-          <SecretCodeTab />
+          <SecretCodeTab userNickname={nickname} />
         ) : (
           <div className="secret-lock-container">
             <div className="lock-card">
