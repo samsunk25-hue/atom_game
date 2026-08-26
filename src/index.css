@@ -583,6 +583,7 @@ button {
 }
 
 .crafting-item {
+  position: relative;
   background: linear-gradient(135deg, #6366f1, #ec4899);
   color: #ffffff;
   width: 64px;
@@ -593,17 +594,45 @@ button {
   align-items: center;
   font-size: 1.6rem;
   font-weight: 900;
-  cursor: grab;
+  cursor: pointer;
   box-shadow: 0 8px 20px rgba(0,0,0,0.6);
   border: 2.5px solid #ffffff;
   user-select: none;
-  touch-action: none;
+  touch-action: manipulation;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.crafting-item:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(236, 72, 153, 0.7);
 }
 
 .crafting-item:active {
-  cursor: grabbing;
-  transform: scale(1.15);
+  transform: scale(0.94);
+}
+
+.crafting-item-sym {
+  pointer-events: none;
+}
+
+.crafting-item-add-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #10b981;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  pointer-events: none;
 }
 
 .flask-dropzone {

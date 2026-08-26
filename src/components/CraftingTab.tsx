@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { useDroppable, useDraggable, DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { 
+  useDroppable, 
+  useDraggable, 
+  DndContext, 
+  useSensor, 
+  useSensors, 
+  PointerSensor, 
+  type DragEndEvent 
+} from '@dnd-kit/core';
 import { elements, type ElementData } from '../data/elements';
 import { compounds, type CompoundRecipe } from '../data/compounds';
 import confetti from 'canvas-confetti';
@@ -25,17 +33,23 @@ const DraggableElement = ({
     zIndex: 1000,
   } : undefined;
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClick(element.symbol);
+  };
+
   return (
     <div 
       ref={setNodeRef} 
       style={style} 
       {...listeners} 
       {...attributes}
-      onClick={() => onClick(element.symbol)}
+      onClick={handleClick}
       className="crafting-item"
       title={`${element.name} (${element.symbol}) - 클릭하거나 드래그하여 플라스크에 추가`}
     >
-      {element.symbol}
+      <span className="crafting-item-sym">{element.symbol}</span>
+      <span className="crafting-item-add-badge">+</span>
     </div>
   );
 };
@@ -48,6 +62,14 @@ const CraftingTab: React.FC<CraftingTabProps> = ({ collectedElements }) => {
   });
   const [modalReward, setModalReward] = useState<{title: string, emoji: string, name: string, formula: string} | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<'all' | 'homo' | 'compound'>('all');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Drag only starts after moving 8px, so simple click/tap works cleanly!
+      },
+    })
+  );
 
   const availableElements = elements.filter(e => collectedElements.includes(e.atomicNumber));
 
@@ -148,7 +170,7 @@ const CraftingTab: React.FC<CraftingTabProps> = ({ collectedElements }) => {
   });
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div className="crafting-container">
         <h2 className="game-title">도전! 홑원소 물질 & 화합물 조합</h2>
         <p className="subtitle">
@@ -159,7 +181,7 @@ const CraftingTab: React.FC<CraftingTabProps> = ({ collectedElements }) => {
           <div className="inventory-panel">
             <div className="panel-title-bar">
               <h3>나의 인벤토리 (수집한 원소)</h3>
-              <span className="inv-hint">💡 원소를 클릭하면 플라스크에 추가됩니다 (여러 개 추가 가능)</span>
+              <span className="inv-hint">💡 원소를 클릭(터치)하면 플라스크에 바로 추가됩니다!</span>
             </div>
             
             <div className="inventory-grid">
@@ -183,15 +205,15 @@ const CraftingTab: React.FC<CraftingTabProps> = ({ collectedElements }) => {
               <div className="flask-contents">
                 {Object.entries(flaskContents).map(([sym, count]) => (
                   <div key={sym} className="flask-item-advanced">
-                    <button className="qty-btn minus" onClick={() => handleDecrement(sym)}>-</button>
+                    <button className="qty-btn minus" onClick={() => handleDecrement(sym)} title="1개 감소">-</button>
                     <span className="flask-sym">{sym}</span>
                     <span className="item-count">x{count}</span>
-                    <button className="qty-btn plus" onClick={() => handleIncrement(sym)}>+</button>
+                    <button className="qty-btn plus" onClick={() => handleIncrement(sym)} title="1개 증가">+</button>
                   </div>
                 ))}
                 {Object.keys(flaskContents).length === 0 && (
-                  <p style={{ color: '#cbd5e1', fontSize: '1.2rem', padding: '30px 10px' }}>
-                    원소를 <strong>클릭</strong>하거나 이곳으로 <strong>드래그</strong>하여 추가하세요!
+                  <p style={{ color: '#cbd5e1', fontSize: '1.25rem', padding: '30px 10px', fontWeight: 600 }}>
+                    왼쪽 인벤토리의 원소를 <strong>클릭</strong>하거나 이곳으로 <strong>드래그</strong>하세요!
                   </p>
                 )}
               </div>
