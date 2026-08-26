@@ -34,7 +34,7 @@ interface MoleGridProps {
 }
 
 const MoleGrid: React.FC<MoleGridProps> = ({ activeMoleIndex, activeElement, onMoleClick, gameMode }) => {
-  const numMoles = 12; // 3x4 grid or 4x3
+  const numMoles = 6; // 2x3 grid for extra large moles and text
 
   return (
     <div className="mole-grid">

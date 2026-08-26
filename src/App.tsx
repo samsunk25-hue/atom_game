@@ -58,7 +58,7 @@ function App() {
     const pool = uncollected.length > 0 && Math.random() > 0.3 ? uncollected : availableElements;
     
     const randomElement = pool[Math.floor(Math.random() * pool.length)];
-    const randomIndex = Math.floor(Math.random() * 12);
+    const randomIndex = Math.floor(Math.random() * 6);
     
     setActiveElement(randomElement);
     setActiveMoleIndex(randomIndex);
