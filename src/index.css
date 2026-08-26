@@ -1289,3 +1289,106 @@ button {
   margin-top: 15px;
 }
 
+/* Advanced Flask Item with +/- Quantity Controls */
+.panel-title-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.inv-hint {
+  font-size: 0.95rem;
+  color: #38bdf8;
+  font-weight: 700;
+  margin-top: -8px;
+}
+
+.flask-item-advanced {
+  background: rgba(99, 102, 241, 0.35);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 2px solid #818cf8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.flask-sym {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.15s;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.qty-btn:active {
+  transform: scale(0.9);
+}
+
+.qty-btn.plus {
+  background: rgba(16, 185, 129, 0.4);
+  border-color: #10b981;
+}
+
+.qty-btn.minus {
+  background: rgba(239, 68, 68, 0.4);
+  border-color: #ef4444;
+}
+
+.recipe-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.recipe-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: #ec4899;
+  color: #ffffff;
+  border-color: #fbcfe8;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+
+.recipe-ingredients {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+
