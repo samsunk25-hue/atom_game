@@ -154,32 +154,36 @@ button {
 .mole-hole {
   position: relative;
   width: 100%;
-  padding-bottom: 72%;
-  background: radial-gradient(ellipse at center, #2e1d11 0%, #120b06 80%);
+  padding-bottom: 68%;
+  background: radial-gradient(ellipse at center, #160c06 0%, #2e180d 55%, #522f1b 75%, #784729 95%);
   border-radius: 50%;
-  box-shadow: inset 0 12px 30px rgba(0,0,0,0.95), 0 8px 16px rgba(0,0,0,0.5);
+  box-shadow: 
+    inset 0 16px 30px rgba(0,0,0,0.98), 
+    0 8px 18px rgba(0,0,0,0.45),
+    0 0 0 6px #5c3519,
+    0 0 0 12px #7a4823,
+    0 6px 14px rgba(0,0,0,0.4);
   overflow: hidden;
-  border: 4px solid rgba(161, 98, 47, 0.6);
 }
 
 .mole {
   position: absolute;
   bottom: 0;
-  left: 6%;
-  width: 88%;
+  left: 8%;
+  width: 84%;
   height: 94%;
-  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-  border-radius: 55px 55px 0 0;
+  background: linear-gradient(135deg, #7c4333, #4e271c);
+  border-radius: 60px 60px 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform: translateY(100%);
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.9);
-  border: 4px solid #f3e8ff;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  border: 3.5px solid #d4a373;
   border-bottom: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
 }
 
 .mole.active {
