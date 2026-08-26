@@ -6,10 +6,11 @@ import MoleGrid from './components/MoleGrid';
 import PeriodicTable from './components/PeriodicTable';
 import CraftingTab from './components/CraftingTab';
 import SecretCodeTab from './components/SecretCodeTab';
+import StudyTab from './components/StudyTab';
 import confetti from 'canvas-confetti';
 
 type GameState = 'START' | 'PLAYING' | 'GAME_OVER';
-type TabState = 'GAME1' | 'GAME2' | 'PT' | 'CRAFT' | 'SECRET';
+type TabState = 'STUDY' | 'GAME1' | 'GAME2' | 'PT' | 'CRAFT' | 'SECRET';
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabState>('GAME1');
@@ -203,6 +204,9 @@ function App() {
   return (
     <div className="app-container">
       <header className="header">
+        <button className={`tab-btn study-tab-btn ${activeTab === 'STUDY' ? 'active' : ''}`} onClick={() => setActiveTab('STUDY')}>
+          📚 사전 학습
+        </button>
         <button className={`tab-btn ${activeTab === 'GAME1' ? 'active' : ''}`} onClick={() => setActiveTab('GAME1')}>
           원자 번호 맞추기
         </button>
@@ -306,6 +310,10 @@ function App() {
             )}
           </div>
         </>
+      )}
+
+      {activeTab === 'STUDY' && (
+        <StudyTab />
       )}
 
       {activeTab === 'PT' && (
