@@ -876,3 +876,98 @@ button {
   font-weight: 800;
   text-shadow: 0 3px 8px rgba(0,0,0,0.9);
 }
+
+/* Secret Lock Screen */
+.secret-lock-container {
+  padding: 35px 20px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.94);
+}
+
+.lock-card {
+  background: rgba(30, 41, 59, 0.95);
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 28px;
+  padding: 40px;
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.lock-icon {
+  font-size: 5.5rem;
+  margin-bottom: 15px;
+  animation: pulse 1s infinite alternate;
+}
+
+.lock-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fde047;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.lock-desc {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+.lock-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.lock-task {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.lock-task.completed {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #6ee7b7;
+}
+
+.lock-task.pending {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.task-status {
+  padding: 4px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 1.1rem;
+}
+
+.lock-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

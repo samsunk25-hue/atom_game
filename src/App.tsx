@@ -30,6 +30,15 @@ function App() {
   const moleTimerRef = useRef<number | null>(null);
   const gameTimerRef = useRef<number | null>(null);
 
+  const [hasPlayedGame1, setHasPlayedGame1] = useState<boolean>(() => {
+    return localStorage.getItem('hasPlayedGame1') === 'true';
+  });
+  const [hasPlayedGame2, setHasPlayedGame2] = useState<boolean>(() => {
+    return localStorage.getItem('hasPlayedGame2') === 'true';
+  });
+
+  const isSecretUnlocked = hasPlayedGame1 && hasPlayedGame2;
+
   // Load collected elements from local storage
   useEffect(() => {
     const saved = localStorage.getItem('collectedElements');
@@ -104,6 +113,14 @@ function App() {
     setActiveMoleIndex(-1);
     if (moleTimerRef.current) clearTimeout(moleTimerRef.current);
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
+
+    if (activeTab === 'GAME1') {
+      setHasPlayedGame1(true);
+      localStorage.setItem('hasPlayedGame1', 'true');
+    } else if (activeTab === 'GAME2') {
+      setHasPlayedGame2(true);
+      localStorage.setItem('hasPlayedGame2', 'true');
+    }
   };
 
   const handleInputSubmit = () => {
@@ -122,6 +139,14 @@ function App() {
       setCombo(prev => prev + 1);
       saveCollectedElement(activeElement.atomicNumber);
       
+      if (activeTab === 'GAME1' && !hasPlayedGame1) {
+        setHasPlayedGame1(true);
+        localStorage.setItem('hasPlayedGame1', 'true');
+      } else if (activeTab === 'GAME2' && !hasPlayedGame2) {
+        setHasPlayedGame2(true);
+        localStorage.setItem('hasPlayedGame2', 'true');
+      }
+
       // Floating animation
       setFloatingElement({ sym: activeElement.symbol, id: Date.now() });
       setTimeout(() => setFloatingElement(null), 1000);
@@ -171,7 +196,7 @@ function App() {
           화합물 조합
         </button>
         <button className={`tab-btn ${activeTab === 'SECRET' ? 'active' : ''}`} onClick={() => setActiveTab('SECRET')}>
-          시크릿 코드
+          {isSecretUnlocked ? '시크릿 코드 🔓' : '시크릿 코드 🔒'}
         </button>
         <button className={`tab-btn ${activeTab === 'PT' ? 'active' : ''}`} onClick={() => setActiveTab('PT')}>
           주기율표 / 도감
@@ -247,7 +272,43 @@ function App() {
       )}
 
       {activeTab === 'SECRET' && (
-        <SecretCodeTab />
+        isSecretUnlocked ? (
+          <SecretCodeTab />
+        ) : (
+          <div className="secret-lock-container">
+            <div className="lock-card">
+              <div className="lock-icon">🔒</div>
+              <h2 className="lock-title">시크릿 코드가 잠겨있습니다!</h2>
+              <p className="lock-desc">
+                원자 번호 맞추기와 원소 기호 맞추기를 각각 최소 1회 이상 플레이한 학습자에게만 시크릿 코드가 오픈됩니다.
+              </p>
+              
+              <div className="lock-checklist">
+                <div className={`lock-task ${hasPlayedGame1 ? 'completed' : 'pending'}`}>
+                  <span className="task-status">{hasPlayedGame1 ? '✅ 달성 완료' : '⏳ 미완료'}</span>
+                  <span className="task-name">1. 원자 번호 맞추기 (게임 1) 플레이</span>
+                </div>
+                <div className={`lock-task ${hasPlayedGame2 ? 'completed' : 'pending'}`}>
+                  <span className="task-status">{hasPlayedGame2 ? '✅ 달성 완료' : '⏳ 미완료'}</span>
+                  <span className="task-name">2. 원소 기호 맞추기 (게임 2) 플레이</span>
+                </div>
+              </div>
+
+              <div className="lock-actions">
+                {!hasPlayedGame1 && (
+                  <button className="start-btn" onClick={() => setActiveTab('GAME1')}>
+                    '원자 번호 맞추기' 플레이 하러 가기 🚀
+                  </button>
+                )}
+                {!hasPlayedGame2 && (
+                  <button className="start-btn" onClick={() => setActiveTab('GAME2')}>
+                    '원소 기호 맞추기' 플레이 하러 가기 💡
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )
       )}
     </div>
   );
