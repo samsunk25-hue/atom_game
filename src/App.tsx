@@ -11,10 +11,21 @@ import confetti from 'canvas-confetti';
 
 type GameState = 'START' | 'PLAYING' | 'GAME_OVER';
 type TabState = 'STUDY' | 'GAME1' | 'GAME2' | 'PT' | 'CRAFT' | 'SECRET';
+type DifficultyLevel = 1 | 2 | 3;
+
+const DIFFICULTY_CONFIG = {
+  1: { label: '1단계 (여유롭게)', timeText: '5초', base: 5000, min: 3200, reduction: 80, icon: '🌱' },
+  2: { label: '2단계 (표준)', timeText: '3초', base: 3000, min: 1600, reduction: 100, icon: '⚡' },
+  3: { label: '3단계 (스피드)', timeText: '1.8초', base: 1800, min: 900, reduction: 70, icon: '🔥' },
+};
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabState>('GAME1');
   const [gameState, setGameState] = useState<GameState>('START');
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>(() => {
+    const saved = localStorage.getItem('gameDifficulty');
+    return saved ? (parseInt(saved) as DifficultyLevel) : 2;
+  });
   
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
@@ -30,6 +41,11 @@ function App() {
 
   const moleTimerRef = useRef<number | null>(null);
   const gameTimerRef = useRef<number | null>(null);
+
+  const handleSelectDifficulty = (level: DifficultyLevel) => {
+    setDifficulty(level);
+    localStorage.setItem('gameDifficulty', String(level));
+  };
 
   const [nickname, setNickname] = useState<string>(() => {
     return localStorage.getItem('userNickname') || '';
@@ -90,10 +106,9 @@ function App() {
     setActiveElement(randomElement);
     setActiveMoleIndex(randomIndex);
 
-    // Dynamic speed based on combo
-    const baseSpeed = 3000;
-    const speedReduction = combo * 100;
-    const moleTime = Math.max(1200, baseSpeed - speedReduction);
+    // 3-Level Difficulty Speed calculation
+    const cfg = DIFFICULTY_CONFIG[difficulty];
+    const moleTime = Math.max(cfg.min, cfg.base - (combo * cfg.reduction));
 
     if (moleTimerRef.current) clearTimeout(moleTimerRef.current);
     moleTimerRef.current = setTimeout(() => {
@@ -101,9 +116,9 @@ function App() {
       setCombo(0);
       setInputValue('');
       setActiveMoleIndex(-1);
-      setTimeout(spawnMole, 500);
+      setTimeout(spawnMole, 450);
     }, moleTime) as unknown as number;
-  }, [activeTab, collectedElements, combo]);
+  }, [activeTab, collectedElements, combo, difficulty]);
 
   const startGame = () => {
     setGameState('PLAYING');
@@ -264,6 +279,9 @@ function App() {
             <div className="stat-box">
               Combo: <span className={combo > 2 ? 'combo-text' : ''}>{combo}</span>
             </div>
+            <div className="stat-box diff-badge-box" title="현재 난이도 및 두더지 노출 시간">
+              {DIFFICULTY_CONFIG[difficulty].icon} {DIFFICULTY_CONFIG[difficulty].timeText}
+            </div>
             <div className="stat-box">Time: {timeLeft}s</div>
           </div>
 
@@ -274,12 +292,33 @@ function App() {
                   {activeTab === 'GAME1' ? '원자 번호를 맞춰라!' : '원소 기호를 맞춰라!'}
                 </h1>
                 {nickname && <p className="welcome-tag">👋 {nickname}님 환영합니다!</p>}
-                <p style={{ fontSize: '1.4rem', marginBottom: '20px' }}>
+                <p style={{ fontSize: '1.25rem', marginBottom: '15px', color: '#e2e8f0' }}>
                   {activeTab === 'GAME1' 
                     ? '두더지가 나오면 원소 기호를 보고 원자 번호를 입력하세요!' 
                     : '두더지가 나오면 원자 번호를 보고 원소 기호를 입력하세요!'}
                 </p>
-                <button className="start-btn" onClick={startGame}>게임 시작</button>
+
+                {/* 3-Level Difficulty Selector */}
+                <div className="difficulty-picker-box">
+                  <div className="difficulty-picker-label">⚙️ 난이도 (두더지 머무는 시간 조절)</div>
+                  <div className="difficulty-btn-row">
+                    {([1, 2, 3] as DifficultyLevel[]).map(lvl => (
+                      <button
+                        key={lvl}
+                        className={`difficulty-select-btn ${difficulty === lvl ? 'active' : ''} lvl-${lvl}`}
+                        onClick={() => handleSelectDifficulty(lvl)}
+                      >
+                        <span className="diff-icon">{DIFFICULTY_CONFIG[lvl].icon}</span>
+                        <span className="diff-name">{DIFFICULTY_CONFIG[lvl].label}</span>
+                        <span className="diff-time">{DIFFICULTY_CONFIG[lvl].timeText}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button className="start-btn" style={{ marginTop: '15px' }} onClick={startGame}>
+                  게임 시작 🚀
+                </button>
               </div>
             )}
             
