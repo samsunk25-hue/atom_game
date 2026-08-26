@@ -30,6 +30,14 @@ function App() {
   const moleTimerRef = useRef<number | null>(null);
   const gameTimerRef = useRef<number | null>(null);
 
+  const [nickname, setNickname] = useState<string>(() => {
+    return localStorage.getItem('userNickname') || '';
+  });
+  const [showNicknameModal, setShowNicknameModal] = useState<boolean>(() => {
+    return !localStorage.getItem('userNickname');
+  });
+  const [tempNickname, setTempNickname] = useState('');
+
   const [hasPlayedGame1, setHasPlayedGame1] = useState<boolean>(() => {
     return localStorage.getItem('hasPlayedGame1') === 'true';
   });
@@ -38,6 +46,15 @@ function App() {
   });
 
   const isSecretUnlocked = hasPlayedGame1 && hasPlayedGame2;
+
+  const handleSaveNickname = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const finalName = tempNickname.trim() || nickname.trim() || '학습자';
+    setNickname(finalName);
+    localStorage.setItem('userNickname', finalName);
+    setShowNicknameModal(false);
+    confetti({ particleCount: 30, spread: 60, origin: { y: 0.6 } });
+  };
 
   // Load collected elements from local storage
   useEffect(() => {
@@ -201,7 +218,34 @@ function App() {
         <button className={`tab-btn ${activeTab === 'PT' ? 'active' : ''}`} onClick={() => setActiveTab('PT')}>
           주기율표 / 도감
         </button>
+        <button className="user-badge-btn" onClick={() => { setTempNickname(nickname); setShowNicknameModal(true); }}>
+          👤 {nickname || '별명 설정'} ✏️
+        </button>
       </header>
+
+      {showNicknameModal && (
+        <div className="nickname-modal-overlay">
+          <div className="nickname-modal">
+            <div className="nickname-icon">🧪</div>
+            <h2>원소 두더지 게임</h2>
+            <p>시작하기 전에 학습자 별명을 입력해 주세요!</p>
+            <form onSubmit={handleSaveNickname} className="nickname-form">
+              <input
+                type="text"
+                className="nickname-input"
+                placeholder="예: 원소마스터, 김과학"
+                value={tempNickname}
+                onChange={(e) => setTempNickname(e.target.value)}
+                maxLength={10}
+                autoFocus
+              />
+              <button type="submit" className="start-btn" style={{ marginTop: '15px', padding: '14px 45px' }}>
+                입력 완료 🚀
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {floatingElement && (
         <div className="floating-element" style={{ left: '50%', top: '50%' }} key={floatingElement.id}>
@@ -225,7 +269,8 @@ function App() {
                 <h1 className="game-title">
                   {activeTab === 'GAME1' ? '원자 번호를 맞춰라!' : '원소 기호를 맞춰라!'}
                 </h1>
-                <p style={{ fontSize: '1.2rem', marginBottom: '20px' }}>
+                {nickname && <p className="welcome-tag">👋 {nickname}님 환영합니다!</p>}
+                <p style={{ fontSize: '1.4rem', marginBottom: '20px' }}>
                   {activeTab === 'GAME1' 
                     ? '두더지가 나오면 원소 기호를 보고 원자 번호를 입력하세요!' 
                     : '두더지가 나오면 원자 번호를 보고 원소 기호를 입력하세요!'}
@@ -237,7 +282,7 @@ function App() {
             {gameState === 'GAME_OVER' && (
               <div className="overlay">
                 <h1 className="game-title">Time's Up!</h1>
-                <h2>Final Score: {score}</h2>
+                <h2>{nickname ? `🎉 ${nickname}님의 최종 점수: ${score}점` : `Final Score: ${score}`}</h2>
                 <button className="start-btn" onClick={startGame}>다시 하기</button>
               </div>
             )}
