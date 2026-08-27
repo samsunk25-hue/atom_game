@@ -1,0 +1,17 @@
+{
+  "name": "모둠지니 · 소원을 들어주는 모둠 요정",
+  "short_name": "모둠지니",
+  "description": "QR 한 번이면 끝나는 AI 모둠 구성. 선생님 손은 가볍게, 아이들 마음은 딱 맞게.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFF3F7",
+  "theme_color": "#FF9DBE",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

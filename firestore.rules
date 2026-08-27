@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// 모둠메이커 — 로그인 화면이 없는 대신 앱이 익명 인증(signInAnonymously)을 거친다.
+// 익명 토큰이 있어야만 읽고 쓸 수 있으므로 외부에서 URL만으로 데이터를 훑을 수 없다.
+// 다만 익명 인증은 누구나 받을 수 있으므로, 학급 코드를 아는 사람은 접근할 수 있다.
+// 학급 코드(6자리)가 사실상의 열쇠라는 점을 전제로 한 교실용 수준의 보호다.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /classes/{code} {
+      allow read, create, update, delete: if request.auth != null;
+
+      match /students/{sid} {
+        allow read, create, update, delete: if request.auth != null;
+      }
+    }
+
+    // 그 외 경로는 모두 차단
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
